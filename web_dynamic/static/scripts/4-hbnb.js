@@ -14,7 +14,7 @@ $(function () {
     }
   });
 
-  const URL = 'http://0.0.0.0:5001/api/v1/status/';
+  const URL = 'http://'+ window.location.hostname +':5001/api/v1/status/';
   $.get(URL, function (data) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
@@ -23,7 +23,7 @@ $(function () {
     }
   });
 
-  const postUrl = 'http://0.0.0.0:5001/api/v1/places_search/';
+  const postUrl = 'http://'+ window.location.hostname +':5001/api/v1/places_search/';
   $.ajax({
     type: 'POST',
     url: postUrl,
@@ -50,7 +50,7 @@ $(function () {
   });
 
   $('button').click(function () {
-    const postUrl = 'http://0.0.0.0:5001/api/v1/places_search/';
+    const postUrl = 'http://'+ window.location.hostname +':5001/api/v1/places_search/';
     const amenityKeys = JSON.stringify(Object.keys(listcheck));
     $.ajax({
       type: 'POST',
