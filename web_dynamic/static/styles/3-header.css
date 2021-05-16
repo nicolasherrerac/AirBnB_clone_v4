@@ -10,8 +10,7 @@ header .logo {
     height: 100%;
 }
 
-header .api {
-    float: right;
+#api-status {
     vertical-align: middle;
     width: 40px;
     height: 40px;
@@ -20,6 +19,6 @@ header .api {
     margin-left: 30px;
 }
 
-header .available {
+#api-status.available {
     background-color: #ff545f;
 }
