@@ -7,14 +7,13 @@ $(function () {
       const index = listcheck.indexOf(amenityId);
       if (index !== -1) {
         listcheck.splice(index, 1);
-      } else {
-        listcheck.push(amenityId);
       }
-      console.log(listcheck);
+    } else {
+      listcheck.push(amenityId);
     }
   });
 
-  const URL = 'http://'+ window.location.hostname +':5001/api/v1/status/';
+  const URL = 'http://' + window.location.hostname + ':5001/api/v1/status/';
   $.get(URL, function (data) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
@@ -23,14 +22,15 @@ $(function () {
     }
   });
 
-  const postUrl = 'http://'+ window.location.hostname +':5001/api/v1/places_search/';
+  const postUrl = 'http://' + window.location.hostname + ':5001/api/v1/places_search/';
   $.ajax({
     type: 'POST',
     url: postUrl,
-    data: {},
+    data: '{}',
     dataType: 'json',
     contentType: 'application/json',
     success: (data) => {
+      $('SECTION.places').empty();
       data.forEach((place) => {
         const article = `<article>
           <div class="title_box">
@@ -50,28 +50,29 @@ $(function () {
   });
 
   $('button').click(function () {
-    const postUrl = 'http://'+ window.location.hostname +':5001/api/v1/places_search/';
-    const amenityKeys = JSON.stringify(Object.keys(listcheck));
+    const postUrl = 'http://' + window.location.hostname + ':5001/api/v1/places_search/';
+    const amenityList = JSON.stringify({ amenities: listcheck });
     $.ajax({
       type: 'POST',
       url: postUrl,
-      data: amenityKeys,
+      data: amenityList,
       dataType: 'json',
       contentType: 'application/json',
       success: (data) => {
+        $('SECTION.places').empty();
         data.forEach((place) => {
           const article = `<article>
-						<div class="title_box">
-							<h2>${place.name}</h2>
-							<div class="price_by_night">${place.price_by_night}</div>
-						</div>
-						<div class="information">
-							<div class="max_guest">${place.max_guest} Guest</div>
-							<div class="number_rooms">${place.number_rooms} Bedroom</div>
-							<div class="number_bathrooms">${place.number_bathrooms} Bathroom</div>
-						</div>
-						<div class="description">${place.description}</div>
-					</article>`;
+          <div class="title_box">
+          <h2>${place.name}</h2>
+          <div class="price_by_night">${place.price_by_night}</div>
+        </div>
+        <div class="information">
+          <div class="max_guest">${place.max_guest} Guest</div>
+          <div class="number_rooms">${place.number_rooms} Bedroom</div>
+          <div class="number_bathrooms">${place.number_bathrooms} Bathroom</div>
+        </div>
+        <div class="description">${place.description}</div>
+      </article>`;
           $('SECTION.places').append(article);
         });
       }
