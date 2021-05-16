@@ -1,6 +1,19 @@
 const $ = window.$;
 $(function () {
-  const URL = 'http://'+ window.location.hostname +':5001/api/v1/status/';
+  const listcheck = [];
+  $('.checkbox_amenities').click(function () {
+    const amenityId = $(this).data('id');
+    if (listcheck.includes(amenityId)) {
+      const index = listcheck.indexOf(amenityId);
+      if (index !== -1) {
+        listcheck.splice(index, 1);
+      }
+    } else {
+      listcheck.push(amenityId);
+    }
+  });
+
+  const URL = 'http://' + window.location.hostname + ':5001/api/v1/status/';
   $.get(URL, function (data) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
@@ -9,17 +22,17 @@ $(function () {
     }
   });
 
-  const postUrl = 'http://'+ window.location.hostname +':5001/api/v1/places_search/';
+  const postUrl = 'http://' + window.location.hostname + ':5001/api/v1/places_search/';
   $.ajax({
     type: 'POST',
     url: postUrl,
-    data: {},
+    data: '{}',
     dataType: 'json',
     contentType: 'application/json',
     success: (data) => {
+      $('SECTION.places').empty();
       data.forEach((place) => {
-        const article =
-        `<article>
+        const article = `<article>
           <div class="title_box">
             <h2>${place.name}</h2>
             <div class="price_by_night">${place.price_by_night}</div>
@@ -33,20 +46,6 @@ $(function () {
         </article>`;
         $('SECTION.places').append(article);
       });
-    }
-  });
-
-  const listcheck = [];
-  $('.checkbox_amenities').click(function () {
-    const amenityId = $(this).data('id');
-    if (listcheck.includes(amenityId)) {
-      const index = listcheck.indexOf(amenityId);
-      if (index !== -1) {
-        listcheck.splice(index, 1);
-      } else {
-        listcheck.push(amenityId);
-      }
-      console.log(listcheck);
     }
   });
 });
