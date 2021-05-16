@@ -9,6 +9,7 @@ $(function(){
       $('#api_status').removeClass('available');
     }
   });
+  
   const listcheck = [];
   $('.checkbox_amenities').click(function () {
     let amenity_id = $(this).data('id');
